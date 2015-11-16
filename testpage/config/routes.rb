@@ -1,11 +1,20 @@
 Rails.application.routes.draw do
-  get 'welcome/index'
+  #get 'welcome/index'
+  get '/auth/:provider/callback', to: 'sessions#create'
+  get :twitter_results, to: "twitter_results#index", as: :get_tweets
+  resources :tweets
 
+  root to: "twitter_results#index"
+  get '/login' => 'loginsessions#new'
+  post '/login' => 'loginsessions#create'
+  get '/logout' => 'loginsessions#destroy'
+  get '/signup' => 'users#new'
+  post '/users' => 'users#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  #root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
