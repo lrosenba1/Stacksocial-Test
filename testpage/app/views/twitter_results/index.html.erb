@@ -1,0 +1,16 @@
+<%= form_tag(get_tweets_path, :method => 'get') do %>
+    <%= text_field_tag(:search) %>
+    <%= submit_tag("Find Tweets") %>
+  <% end %>
+
+<% if @searchString %> 
+<div class="twitter-tweet">
+  <h2 style="border-bottom: #bbb 1px solid; width: 468px;">Tweets by <%= @searchString %></h2>
+  <ul style="overflow: auto; max-width: 468px; max-height: 350px;">
+    <% TwitterApi.public_tweets(@searchString).each do |tweet| %>
+      <li style="margin-left: 10%; list-style: square url('<%=tweet.user.profile_image_url %>');">  <%= tweet.user.name %> <%= tweet.created_at.strftime('%b %d, %Y %H:%M:%S') %><br />   <%= tweet.user.screen_name %></li>
+      <li style="list-style: none;" class = "tweets"><%= tweet.text %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
